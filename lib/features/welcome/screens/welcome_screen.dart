@@ -27,57 +27,98 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ],
                 ),
               ),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Image(
-                            alignment: Alignment.center,
-                            image: AssetImage("assets/images/farm.jpeg"),
-                            fit: BoxFit.cover,
-                            height: 600,
-                          )
-                        ],
+              Expanded(
+                flex: 12,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Container(
+                    height: 80,
+                    width: double.infinity,
+                    padding:
+                        const EdgeInsets.only(top: 25, left: 24, right: 24),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/farm.jpeg"),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            height: 80,
-                            width: double.infinity,
-                            padding: const EdgeInsets.only(
-                                top: 25, left: 24, right: 24),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green[500],
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10))),
-                              onPressed: () => Navigator.of(context)
-                                  .pushNamed(LoginScreen.routeName),
-                              child: const Text(
-                                'LOGIN',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 70.0),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: Size(500, 50),
+                                backgroundColor: Colors.green[500],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            onPressed: () => Navigator.of(context)
+                                .pushNamed(LoginScreen.routeName),
+                            child: const Text(
+                              'LOGIN',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
+              // Flexible(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Expanded(
+              //         flex: 6,
+              //         child: Container(
+              //           // crossAxisAlignment: CrossAxisAlignment.start,
+              //           child: (const Image(
+              //             alignment: Alignment.center,
+              //             image: AssetImage("assets/images/farm.jpeg"),
+              //             fit: BoxFit.cover,
+              //             height: 900,
+              //           )),
+              //         ),
+              //       ),
+              //       Expanded(
+              //         flex: 3,
+              //         child: Column(
+              //           mainAxisSize: MainAxisSize.min,
+              //           children: [
+              //             Container(
+              //               height: 80,
+              //               width: double.infinity,
+              //               padding: const EdgeInsets.only(
+              //                   top: 25, left: 24, right: 24),
+              //               child: ElevatedButton(
+              //                 style: ElevatedButton.styleFrom(
+              //                     backgroundColor: Colors.green[500],
+              //                     shape: RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(10))),
+              //                 onPressed: () => Navigator.of(context)
+              //                     .pushNamed(LoginScreen.routeName),
+              //                 child: const Text(
+              //                   'LOGIN',
+              //                   style: TextStyle(
+              //                     fontSize: 18,
+              //                     fontWeight: FontWeight.w700,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Row(

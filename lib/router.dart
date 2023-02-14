@@ -6,13 +6,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case LoginScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const LoginScreen(),
+        builder: (_) => LoginScreen(),
       );
     default:
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const Scaffold(
-          body: Center(child: Text('Screen does not exist')),
+          body: Center(
+            child: Text('Screen does not exist'),
+          ),
         ),
       );
   }
