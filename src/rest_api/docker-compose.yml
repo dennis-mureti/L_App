@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  lima-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=lima
+    ports:
+      - '5433:5432'
+    networks:
+      - lima-network
+networks:
+  lima-network: {}
