@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lima_app/features/auth/screens/login_screen.dart';
+import 'package:lima_app/features/home/screens/home_screen.dart';
 import 'package:lima_app/features/welcome/screens/welcome_screen.dart';
+import 'package:lima_app/providers/user_provider.dart';
 import 'package:lima_app/router.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+    ),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,12 +36,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const WelcomeScreen(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const WelcomeScreen(),
+      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+          ? Provider.of<UserProvider>(context).user.type == 'admin'
+              ? const LoginScreen()
+              : const HomeScreen()
+          : const WelcomeScreen(),
     );
   }
 }
-
-
-
-

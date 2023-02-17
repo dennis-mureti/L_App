@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lima_app/features/login/screens/login_screen.dart';
+import 'package:lima_app/features/auth/screens/login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           alignment: Alignment.bottomCenter,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                minimumSize: Size(500, 50),
+                                minimumSize: const Size(500, 50),
                                 backgroundColor: Colors.green[500],
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10))),
