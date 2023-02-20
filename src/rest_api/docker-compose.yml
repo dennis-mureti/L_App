@@ -9,8 +9,16 @@ services:
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=lima
     ports:
-      - '5433:5432'
+      - '5432:5432'
     networks:
       - lima-network
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - '8080:8080'
+    networks:
+      - lima-network
+
 networks:
   lima-network: {}

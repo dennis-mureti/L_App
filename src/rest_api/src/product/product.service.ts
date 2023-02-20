@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaClient } from '@prisma/client';
@@ -13,27 +9,25 @@ const prisma = new PrismaClient();
 @Injectable()
 export class ProductService {
   async create(createProductDto: CreateProductDto) {
-    // TODO: To have a review of created_by and updated_by fields
-    // TODO: Should they be 'name of a person' or reference to 'user' 'user_id' table
-    try {
-      const createdProduct = await prisma.products.create({
+    // TODO: to work on getting authenticated user and details on the incompleted fields
+    const product = await prisma.products
+      .create({
         data: {
           ...createProductDto,
           rate: +createProductDto.rate,
           created_by: '',
           updated_by: '',
         },
+      })
+      .catch((error) => {
+        if (error instanceof PrismaClientKnownRequestError) {
+          if (error.code == 'P2002')
+            throw new BadRequestException('product with that code exists');
+        }
+        throw new BadRequestException(error);
       });
 
-      return createdProduct;
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        console.log('is an error of prisma');
-        if (error.code == 'P2002')
-          throw new BadRequestException('product code should be unique');
-      }
-      throw error;
-    }
+    return product;
   }
 
   async findAll() {
@@ -43,21 +37,23 @@ export class ProductService {
   }
 
   async findOne(id: string) {
-    const product = await prisma.products.findUnique({
-      where: {
-        product_id: id,
-      },
-    });
+    const product = await prisma.products
+      .findUnique({
+        where: {
+          product_id: id,
+        },
+      })
+      .catch((error) => {
+        throw new BadRequestException(error.message);
+      });
 
-    if (!product) throw new NotFoundException('product not found');
     return product;
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
-    // TODO: To have a review of created_by and updated_by fields
-    // TODO: Should they be 'name of a person' or reference to 'user' 'user_id' table
-    try {
-      const updatedProduct = await prisma.products.update({
+    // TODO: to work on getting authenticated user and details on the incompleted fields
+    const product = await prisma.products
+      .update({
         where: {
           product_id: id,
         },
@@ -65,33 +61,25 @@ export class ProductService {
           ...updateProductDto,
           rate: +updateProductDto.rate,
         },
+      })
+      .catch((error) => {
+        throw new BadRequestException(error.message);
       });
 
-      return updatedProduct;
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code == 'P2002')
-          throw new BadRequestException('product code should be unique');
-      }
-    }
+    return product;
   }
 
   async remove(id: string) {
-    try {
-      await prisma.products.delete({
+    await prisma.products
+      .delete({
         where: {
           product_id: id,
         },
+      })
+      .catch((error) => {
+        throw new BadRequestException(error.message);
       });
 
-      return { message: 'product deleted successfully' };
-    } catch (error) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code == 'P2025')
-          throw new NotFoundException('product does not exist');
-      }
-
-      throw error;
-    }
+    return { message: 'product deleted successfully' };
   }
 }
