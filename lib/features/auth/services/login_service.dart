@@ -1,7 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lima_app/constants/error_handling.dart';
@@ -35,17 +32,17 @@ class LoginService {
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
-          // await prefs.setString('token', jsonDecode(res.body)['token']);
-          Navigator.pushNamedAndRemoveUntil(
-            // MaterialPageRoute(
-            // builder: (context) => const HomeScreen())
-            context,
-            '/home',
-            (route) => false,
-          );
+          await prefs.setString('', jsonDecode(res.body)['access_token']);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => const HomeScreen())
+                  // context,
+                  // HomeScreen.routeName,
+                  // (route) => true,
+                  );
         },
       );
     } catch (e) {
+      // print(e);
       showSnackBar(context, e.toString());
     }
   }

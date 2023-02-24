@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lima_app/common/widgets/common_button.dart';
 import 'package:lima_app/features/auth/services/login_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lima_app/features/home/screens/home_screen.dart';
@@ -86,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         filled: true,
                         fillColor: Colors.white,
                         prefixIcon: Icon(FontAwesomeIcons.lock),
+
                         // suffixIcon: IconButton(onPressed: () => setObsecure(), icon: icon)
                       ),
                       controller: _passwordController,
@@ -98,16 +100,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      child: const Text('Login'),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
-                          ),
-                        );
+                    CustomButton(
+                      text: 'Login',
+                      onTap: () {
+                        if (_loginFormKey.currentState!.validate()) {
+                          loginUser();
+                        }
                       },
                     )
+                    // child: ElevatedButton(
+                    //   child: const Text('Login'),
+                    //   onPressed: () {
+                    //     if (_loginFormKey.currentState!.validate()) {
+                    //       loginUser();
+                    //     }
+                    //     // Navigator.of(context).push(
+                    //     //   MaterialPageRoute(
+                    //     //     builder: (context) => const HomeScreen(),
+                    //     //   ),
+                    //     // );
+                    //   },
+                    // ),
                   ],
                 ),
               ),
