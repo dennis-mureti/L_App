@@ -1,0 +1,462 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model broadcasts {
+  broadcast_id      String   @id @default(uuid())
+  broadcast_name    String   @db.VarChar(25)
+  broadcast_content String   @db.VarChar(255)
+  created_at        DateTime @default(now()) @db.Timestamp(0)
+  updated_at        DateTime @default(dbgenerated("'2000-10-10 00:00:00'")) @db.Timestamp(0)
+  created_by        String
+  updated_by        String
+}
+
+model corp_vet_transfer {
+  transfer_id                                             String     @id @default(uuid())
+  person_id                                               String
+  registered_farmers                                      Int
+  subcounty_from                                          String
+  subcounty_to                                            String
+  transfer_reason                                         String     @db.VarChar(100)
+  transfer_date                                           DateTime
+  persons                                                 persons    @relation(fields: [person_id], references: [person_id], onDelete: Cascade)
+  sub_county_corp_vet_transfer_subcounty_fromTosub_county sub_county @relation("corp_vet_transfer_subcounty_fromTosub_county", fields: [subcounty_from], references: [id], onDelete: Cascade)
+  sub_county_corp_vet_transfer_subcounty_toTosub_county   sub_county @relation("corp_vet_transfer_subcounty_toTosub_county", fields: [subcounty_to], references: [id], onDelete: Cascade)
+
+  @@index([person_id])
+  @@index([subcounty_from])
+  @@index([subcounty_to])
+}
+
+model corps {
+  corp_id        String                @id @default(uuid())
+  person_id      String
+  is_vet         String?               @default("No") @db.VarChar(3)
+  vet_reg_number String?               @db.VarChar(20)
+  vet_reg_status corps_vet_reg_status? @default(Inactive)
+  created_at     DateTime              @default(now()) @db.Timestamp(0)
+  updated_at     DateTime              @updatedAt
+  created_by     String?
+  updated_by     String?
+  persons        persons               @relation(fields: [person_id], references: [person_id], onDelete: Cascade)
+
+  @@index([person_id])
+}
+
+model county {
+  id         String         @id @default(uuid())
+  name       String         @db.VarChar(255)
+  code       Bytes?
+  status     county_status?
+  date_added DateTime
+  time_stamp DateTime       @default(now())
+
+  @@index([code])
+  @@index([name])
+}
+
+model farmer_corp {
+  farmer_corp_id                         String   @id @default(uuid())
+  farmer_id                              String
+  corp_id                                String?
+  vet_id                                 String?
+  persons_farmer_corp_farmer_idTopersons persons  @relation("farmer_corp_farmer_idTopersons", fields: [farmer_id], references: [person_id], onDelete: Cascade)
+  persons_farmer_corp_corp_idTopersons   persons? @relation("farmer_corp_corp_idTopersons", fields: [corp_id], references: [person_id], onDelete: Cascade)
+  persons_farmer_corp_vet_idTopersons    persons? @relation("farmer_corp_vet_idTopersons", fields: [vet_id], references: [person_id], onDelete: Cascade)
+
+  @@index([corp_id])
+  @@index([farmer_id])
+  @@index([vet_id])
+}
+
+model farmer_leads {
+  id         String              @id @default(uuid())
+  first_name String              @db.VarChar(50)
+  last_name  String              @db.VarChar(50)
+  id_number  String              @db.VarChar(50)
+  phone_no   String              @db.VarChar(50)
+  county     String              @db.VarChar(60)
+  location   String              @db.VarChar(60)
+  status     farmer_leads_status @default(Active)
+  created_at DateTime
+  updated_at DateTime
+}
+
+model farmer_transfer {
+  transfer_id                                    String   @id @default(uuid())
+  person_id                                      String
+  registered_by                                  String
+  transfer_reason                                String   @db.VarChar(255)
+  transfer_date                                  DateTime
+  persons_farmer_transfer_registered_byTopersons persons  @relation("farmer_transfer_registered_byTopersons", fields: [registered_by], references: [person_id], onDelete: Cascade)
+  persons_farmer_transfer_person_idTopersons     persons  @relation("farmer_transfer_person_idTopersons", fields: [person_id], references: [person_id], onDelete: Cascade)
+
+  @@index([registered_by])
+  @@index([person_id])
+}
+
+model farmers {
+  farmer_id       String   @id @default(uuid())
+  person_id       String
+  location        String   @db.VarChar(50)
+  no_of_livestock String   @db.VarChar(50)
+  created_at      DateTime @default(now()) @db.Timestamp(0)
+  updated_at      DateTime @default(now()) @db.Timestamp(0)
+  created_by      String
+  updated_by      String
+  persons         persons  @relation(fields: [person_id], references: [person_id], onDelete: Cascade)
+
+  @@index([person_id])
+}
+
+model farmorder_level {
+  level_id   String   @id @default(uuid())
+  phone_no   String   @db.VarChar(25)
+  person_id  String?
+  level      Int
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  updated_at DateTime @default(now()) @db.Timestamp(0)
+}
+
+model inbox {
+  inbox_id     String   @id @default(uuid())
+  source       String   @db.VarChar(255)
+  destination  String   @db.VarChar(255)
+  content      String   @db.VarChar(255)
+  processed    String   @default("No") @db.VarChar(5)
+  created_at   DateTime @default(now()) @db.Timestamp(0)
+  updated_at   DateTime @default(now()) @db.Timestamp(0)
+  LinkId       String?  @db.VarChar(255)
+  reference    String?  @db.VarChar(255)
+  receivedtime String?  @db.VarChar(50)
+
+  @@index([source])
+}
+
+model information_center {
+  infor_id   String   @id @default(uuid())
+  infor_name String   @db.VarChar(200)
+  infor_link String   @db.VarChar(250)
+  created_by String
+  updated_by String
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  updated_at DateTime @default(now()) @db.Timestamp(0)
+  validity   DateTime
+  persons    persons  @relation(fields: [created_by], references: [person_id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@index([created_by])
+}
+
+model level {
+  level_id   String   @id @default(uuid())
+  level_name String   @db.VarChar(25)
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  updated_at DateTime @default(now()) @db.Timestamp(0)
+}
+
+model migrations {
+  id        String @id @default(uuid())
+  migration String @db.VarChar(255)
+  batch     Int
+}
+
+model mpesa_requests {
+  id                     String    @id @default(uuid())
+  ussdSessionId          String    @db.Char(255)
+  msisdn                 String    @db.VarChar(13)
+  amount                 Float
+  rateId                 Int
+  subcountyId            String?
+  paymentStatus          Int       @default(201)
+  accountReference       String?   @db.VarChar(30)
+  transactionDescription String?   @db.VarChar(50)
+  mpesaReceiptNumber     String?   @db.VarChar(30)
+  dateCreated            DateTime  @default(now()) @db.Timestamp(0)
+  transactionDate        DateTime? @db.Timestamp(0)
+  limaProStatus          Int       @default(101)
+  datePushedToLimaPro    DateTime? @db.Timestamp(0)
+}
+
+model order_details {
+  order_details_id   String         @id @default(uuid())
+  order_id           String
+  product_id         String
+  quantity_ordered   Int
+  quantity_delivered Int            @default(0)
+  created_at         DateTime       @default(now()) @db.Timestamp(0)
+  updated_at         DateTime       @default(now()) @db.Timestamp(0)
+  created_by         String
+  updated_by         String
+  detail_status      Int?
+  comments           String?
+  orders             orders         @relation(fields: [order_id], references: [order_id], onDelete: Cascade)
+  product_stocks     product_stocks @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@index([order_id])
+  @@index([product_id])
+}
+
+model orders {
+  order_id                         String          @id @default(uuid())
+  source                           String
+  order_to                         String
+  status                           Int             @default(0)
+  created_at                       DateTime        @default(now()) @db.Timestamp(0)
+  updated_at                       DateTime        @default(now()) @db.Timestamp(0)
+  created_by                       String
+  updated_by                       String
+  no_order_details                 Int?
+  order_details                    order_details[]
+  persons_orders_sourceTopersons   persons         @relation("orders_sourceTopersons", fields: [source], references: [person_id], onDelete: Cascade)
+  persons_orders_order_toTopersons persons         @relation("orders_order_toTopersons", fields: [order_to], references: [person_id], onDelete: Cascade)
+
+  @@index([order_to])
+  @@index([source])
+  @@index([status])
+}
+
+model outbox {
+  outbox_id   String   @id @default(uuid())
+  destination String   @db.VarChar(15)
+  message     String   @db.Text
+  source      String   @db.VarChar(15)
+  status      String   @default("Not Processed") @db.VarChar(25)
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(dbgenerated("'2000-10-10 00:00:00'")) @db.Timestamp(0)
+
+  @@index([destination])
+}
+
+model persons {
+  person_id                                              String                 @id @default(uuid())
+  first_name                                             String                 @db.VarChar(50)
+  last_name                                              String                 @db.VarChar(50)
+  id_number                                              String                 @unique() @db.VarChar(20)
+  gender                                                 String                 @db.VarChar(20)
+  phone_no                                               String                 @unique() @db.VarChar(15)
+  county_id                                              String
+  sub_county_id                                          String
+  created_at                                             DateTime               @default(now())
+  updated_at                                             DateTime               @updatedAt
+  created_by                                             String?
+  updated_by                                             String?
+  status                                                 persons_status         @default(Active)
+  level                                                  Int?
+  county                                                 String?
+  corp_vet_transfer                                      corp_vet_transfer[]
+  corps                                                  corps[]
+  farmer_corp_farmer_corp_farmer_idTopersons             farmer_corp[]          @relation("farmer_corp_farmer_idTopersons")
+  farmer_corp_farmer_corp_corp_idTopersons               farmer_corp[]          @relation("farmer_corp_corp_idTopersons")
+  farmer_corp_farmer_corp_vet_idTopersons                farmer_corp[]          @relation("farmer_corp_vet_idTopersons")
+  farmer_transfer_farmer_transfer_registered_byTopersons farmer_transfer[]      @relation("farmer_transfer_registered_byTopersons")
+  farmer_transfer_farmer_transfer_person_idTopersons     farmer_transfer[]      @relation("farmer_transfer_person_idTopersons")
+  farmers                                                farmers[]
+  information_center                                     information_center[]
+  orders_orders_sourceTopersons                          orders[]               @relation("orders_sourceTopersons")
+  orders_orders_order_toTopersons                        orders[]               @relation("orders_order_toTopersons")
+  sub_county                                             sub_county             @relation(fields: [sub_county_id], references: [id], onDelete: Cascade)
+  product_stocks                                         product_stocks[]
+  sa_persons_sa_persons_person_idTopersons               sa_persons[]           @relation("sa_persons_person_idTopersons")
+  sa_persons_sa_persons_created_byTopersons              sa_persons[]           @relation("sa_persons_created_byTopersons")
+  sa_persons_sa_persons_updated_byTopersons              sa_persons[]           @relation("sa_persons_updated_byTopersons")
+  sales_agent_products                                   sales_agent_products[]
+  sales_agent_stock                                      sales_agent_stock[]
+  stocks_stocks_person_idTopersons                       stocks[]               @relation("stocks_person_idTopersons")
+  stocks_stocks_created_byTopersons                      stocks[]               @relation("stocks_created_byTopersons")
+
+  @@index([sub_county_id])
+}
+
+model product_stocks {
+  id                   String                 @id @default(uuid())
+  product_id           String                 @unique()
+  person_id            String
+  buying_price         Int
+  selling_price        Int
+  balance              Int
+  created_at           DateTime               @default(now())
+  updated_at           DateTime               @updatedAt
+  created_by           String?
+  updated_by           String?
+  order_details        order_details[]
+  products             products               @relation(fields: [product_id], references: [product_id], onUpdate: Restrict)
+  persons              persons?               @relation(fields: [person_id], references: [person_id], onDelete: Restrict, onUpdate: Restrict)
+  sales_agent_products sales_agent_products[]
+
+  @@index([person_id])
+  @@index([product_id])
+}
+
+model products {
+  product_id          String           @id @default(uuid())
+  product_name        String           @db.VarChar(50)
+  product_code        String           @unique() @db.VarChar(50)
+  product_description String           @db.VarChar(200)
+  created_at          DateTime         @default(now()) @db.Timestamp(0)
+  updated_at          DateTime         @updatedAt
+  created_by          String
+  updated_by          String
+  rate                Int?
+  product_serial_code String?          @default("101") @db.VarChar(50)
+  product_stocks      product_stocks[]
+  stocks              stocks[]
+}
+
+model sa_persons {
+  sa_person_id                           String   @id @default(uuid())
+  person_id                              String
+  created_at                             DateTime @default(now()) @db.Timestamp(0)
+  updated_at                             DateTime @default(dbgenerated("'2000-10-10 00:00:00'")) @db.Timestamp(0)
+  created_by                             String
+  updated_by                             String
+  persons_sa_persons_person_idTopersons  persons  @relation("sa_persons_person_idTopersons", fields: [person_id], references: [person_id], onDelete: Cascade)
+  persons_sa_persons_created_byTopersons persons  @relation("sa_persons_created_byTopersons", fields: [created_by], references: [person_id], onDelete: Cascade)
+  persons_sa_persons_updated_byTopersons persons  @relation("sa_persons_updated_byTopersons", fields: [updated_by], references: [person_id], onDelete: Cascade)
+
+  @@index([person_id])
+  @@index([created_by])
+  @@index([updated_by])
+}
+
+model sales_agent_products {
+  id                String              @id @default(uuid())
+  product_id        String
+  sales_agent_id    String
+  buying_price      Int                 @default(0)
+  selling_price     Int
+  available_balance Int?                @default(0)
+  created_at        DateTime
+  updated_at        DateTime            @db.Date
+  created_by        String
+  updated_by        String
+  product_stocks    product_stocks      @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+  persons           persons             @relation(fields: [sales_agent_id], references: [person_id], onDelete: Cascade)
+  sales_agent_stock sales_agent_stock[] @ignore
+
+  @@index([product_id])
+  @@index([sales_agent_id])
+}
+
+model sales_agent_stock {
+  id                    String               @id @default(uuid())
+  sales_agent_product   String
+  sales_agent_person_id String
+  sales_agent_products  sales_agent_products @relation(fields: [sales_agent_product], references: [id], onDelete: Cascade)
+  persons               persons              @relation(fields: [sales_agent_person_id], references: [person_id], onDelete: Cascade)
+
+  @@index([sales_agent_product])
+  @@index([sales_agent_person_id])
+}
+
+model sas {
+  sa_id      String    @id @default(uuid())
+  sa_name    String?   @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  created_by String?
+  updated_by String?
+}
+
+model stocks {
+  stock_id                           String   @id @default(uuid())
+  person_id                          String
+  product_id                         String
+  stock_code                         String   @db.VarChar(50)
+  stock_in                           String   @db.VarChar(50)
+  stock_out                          String   @db.VarChar(50)
+  created_at                         DateTime @default(now()) @db.Timestamp(0)
+  updated_at                         DateTime @default(now()) @db.Timestamp(0)
+  created_by                         String
+  updated_by                         String
+  remember_token                     String?  @db.VarChar(255)
+  persons_stocks_person_idTopersons  persons  @relation("stocks_person_idTopersons", fields: [person_id], references: [person_id], onDelete: Cascade)
+  persons_stocks_created_byTopersons persons  @relation("stocks_created_byTopersons", fields: [created_by], references: [person_id], onDelete: Cascade)
+  products                           products @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+
+  @@index([person_id])
+  @@index([created_by])
+  @@index([product_id])
+}
+
+model sub_county {
+  name                                                           String              @db.VarChar(255)
+  time_stamp                                                     DateTime?
+  status                                                         String?             @db.VarChar(255)
+  county_id                                                      String?
+  id                                                             String              @id @default(uuid())
+  corp_vet_transfer_corp_vet_transfer_subcounty_fromTosub_county corp_vet_transfer[] @relation("corp_vet_transfer_subcounty_fromTosub_county")
+  corp_vet_transfer_corp_vet_transfer_subcounty_toTosub_county   corp_vet_transfer[] @relation("corp_vet_transfer_subcounty_toTosub_county")
+  persons                                                        persons[]
+}
+
+model supplier_persons {
+  supplier_person_id String    @id @default(uuid())
+  supplier_id        String
+  person_id          String
+  supplier_name      String?   @db.VarChar(255)
+  created_at         DateTime  @default(now()) @db.Timestamp(0)
+  updated_at         DateTime  @default(now()) @db.Timestamp(0)
+  deleted_at         DateTime? @db.Timestamp(0)
+  created_by         String?
+  updated_by         String?
+  suppliers          suppliers @relation(fields: [supplier_id], references: [supplier_id], onDelete: Cascade)
+
+  @@index([supplier_id])
+}
+
+model suppliers {
+  supplier_id      String             @id @default(uuid())
+  supplier_name    String             @db.VarChar(255)
+  created_at       DateTime           @default(now()) @db.Timestamp(0)
+  updated_at       DateTime           @default(now()) @db.Timestamp(0)
+  created_by       String?
+  updated_by       String?
+  supplier_persons supplier_persons[]
+}
+
+model user_level {
+  user_level_id   String    @id @default(uuid())
+  user_level_name String?   @db.VarChar(255)
+  created_at      DateTime? @default(now())
+  updated_at      DateTime? @updatedAt
+}
+
+model users {
+  user_id        String   @id @default(uuid())
+  person_id      String
+  email          String   @unique @db.VarChar(255)
+  password       String   @db.VarChar(255)
+  user_level     String?  @default("Farmer")
+  status         String   @default("Active") @db.VarChar(255)
+  created_at     DateTime @default(now())
+  created_by     String?
+  updated_at     DateTime @updatedAt
+  updated_by     String?
+  remember_token String?  @db.VarChar(255)
+}
+
+enum county_status {
+  Active
+  In_Active @map("In Active")
+}
+
+enum corps_vet_reg_status {
+  Active
+  Inactive
+}
+
+enum farmer_leads_status {
+  Inactive
+  Active
+}
+
+enum persons_status {
+  Active
+  Inactive
+}
