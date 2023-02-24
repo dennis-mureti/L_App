@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:lima_app/constants/global_variables.dart';
-import 'package:lima_app/features/admin/screens/add_corp.dart';
+import 'package:lima_app/features/superadmin/screens/add_corp.dart';
 import 'package:lima_app/features/corp/screens/corp_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +17,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void handleClick(int item) {
     switch (item) {
       case 0:
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const CorpMainScreen()));
         break;
       case 1:
         break;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lima_app/common/widgets/common_button.dart';
 import 'package:lima_app/features/auth/services/login_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lima_app/features/home/screens/home_screen.dart';
+import 'package:lima_app/features/superadmin/screens/home_screen.dart';
 
 enum Auth { login }
 

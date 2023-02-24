@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lima_app/features/admin/screens/view_corp.dart';
+import 'package:lima_app/features/superadmin/screens/view_corp.dart';
 import 'package:lima_app/features/auth/screens/login_screen.dart';
-import 'package:lima_app/features/admin/screens/add_corp.dart';
-import 'package:lima_app/features/home/screens/home_screen.dart';
+import 'package:lima_app/features/superadmin/screens/add_corp.dart';
+import 'package:lima_app/features/superadmin/screens/home_screen.dart';
 import 'package:lima_app/models/getcorp.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -30,6 +30,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
             // getCorp: getCorp,
             ),
       );
+
     default:
       return MaterialPageRoute(
         settings: routeSettings,

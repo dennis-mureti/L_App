@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lima_app/common/widgets/common_button.dart';
 import 'package:lima_app/constants/global_variables.dart';
-import 'package:lima_app/features/admin/services/admin_services.dart';
+import 'package:lima_app/features/superadmin/services/admin_services.dart';
 import 'package:lima_app/models/counties.dart';
 import 'package:lima_app/models/sub_county.dart';
 

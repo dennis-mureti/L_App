@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lima_app/constants/global_variables.dart';
-import 'package:lima_app/features/admin/screens/add_corp.dart';
-import 'package:lima_app/features/admin/screens/view_corp.dart';
+import 'package:lima_app/features/superadmin/screens/add_corp.dart';
+import 'package:lima_app/features/superadmin/screens/view_corp.dart';
 
 class CorpMainScreen extends StatefulWidget {
   const CorpMainScreen({Key? key}) : super(key: key);

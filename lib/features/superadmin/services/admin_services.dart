@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class AdminServices {
+  // add corp
   void addCorp(
       {required BuildContext context,
       required String firstName,
@@ -82,7 +83,6 @@ class AdminServices {
   }
 
   // get all subcounties
-
   Future<List<SubCounties>> fetchAllSubCounties(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<SubCounties> subCountiesList = [];
@@ -139,4 +139,7 @@ class AdminServices {
     }
     return corpList;
   }
+
+  // get all persons
+
 }

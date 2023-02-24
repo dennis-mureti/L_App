@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lima_app/features/auth/screens/login_screen.dart';
-import 'package:lima_app/features/home/screens/home_screen.dart';
+import 'package:lima_app/features/superadmin/screens/home_screen.dart';
 import 'package:lima_app/features/welcome/screens/welcome_screen.dart';
 import 'package:lima_app/providers/user_provider.dart';
 import 'package:lima_app/router.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Lima App',
+      title: 'Lima',
       theme: ThemeData(
         // This is the theme of your application.
         //

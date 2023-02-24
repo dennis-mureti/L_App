@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lima_app/common/widgets/loader.dart';
-import 'package:lima_app/features/admin/services/admin_services.dart';
+import 'package:lima_app/features/superadmin/services/admin_services.dart';
 import 'package:lima_app/models/getcorp.dart';
 
 class ViewCorpScreen extends StatefulWidget {
