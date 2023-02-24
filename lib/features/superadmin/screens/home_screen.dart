@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:lima_app/common/services/logout.dart';
 import 'package:lima_app/constants/global_variables.dart';
 import 'package:lima_app/features/superadmin/screens/add_corp.dart';
 import 'package:lima_app/features/corp/screens/corp_screen.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             MaterialPageRoute(builder: (context) => const CorpMainScreen()));
         break;
       case 1:
+        LogOutService().logOut(context);
         break;
     }
   }
