@@ -51,11 +51,12 @@ class _CorpMainScreenState extends State<CorpMainScreen>
       ),
 
       body: TabBarView(
+        // ignore: prefer_const_literals_to_create_immutables
         children: [
           Center(
             child: AddCorpScreen(),
           ),
-          const ViewCorpScreen(),
+          ViewCorpScreen(),
         ],
         controller: _tabController,
       ),

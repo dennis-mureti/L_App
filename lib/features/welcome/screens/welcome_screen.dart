@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lima_app/features/auth/screens/login_screen.dart';
+import 'package:lima_app/features/auth/screens/register_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -47,22 +48,47 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         padding: const EdgeInsets.only(bottom: 70.0),
                         child: Align(
                           alignment: Alignment.bottomCenter,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(500, 50),
-                                backgroundColor: Colors.green[500],
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10))),
-                            onPressed: () => Navigator.of(context)
-                                .pushNamed(LoginScreen.routeName),
-                            child: const Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size(500, 50),
+                                    backgroundColor: Colors.green[500],
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                                onPressed: () => Navigator.of(context)
+                                    .pushNamed(RegisterScreen.routeName),
+                                child: const Text(
+                                  'REGISTER',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 16), // login
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size(500, 50),
+                                    backgroundColor: Colors.green[500],
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10))),
+                                onPressed: () => Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName),
+                                child: const Text(
+                                  'LOGIN',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -70,55 +96,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                 ),
               ),
-              // Flexible(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Expanded(
-              //         flex: 6,
-              //         child: Container(
-              //           // crossAxisAlignment: CrossAxisAlignment.start,
-              //           child: (const Image(
-              //             alignment: Alignment.center,
-              //             image: AssetImage("assets/images/farm.jpeg"),
-              //             fit: BoxFit.cover,
-              //             height: 900,
-              //           )),
-              //         ),
-              //       ),
-              //       Expanded(
-              //         flex: 3,
-              //         child: Column(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: [
-              //             Container(
-              //               height: 80,
-              //               width: double.infinity,
-              //               padding: const EdgeInsets.only(
-              //                   top: 25, left: 24, right: 24),
-              //               child: ElevatedButton(
-              //                 style: ElevatedButton.styleFrom(
-              //                     backgroundColor: Colors.green[500],
-              //                     shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(10))),
-              //                 onPressed: () => Navigator.of(context)
-              //                     .pushNamed(LoginScreen.routeName),
-              //                 child: const Text(
-              //                   'LOGIN',
-              //                   style: TextStyle(
-              //                     fontSize: 18,
-              //                     fontWeight: FontWeight.w700,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Row(

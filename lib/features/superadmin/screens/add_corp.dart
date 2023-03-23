@@ -15,19 +15,25 @@ class AddCorpScreen extends StatefulWidget {
 
 class _AddCorpScreenState extends State<AddCorpScreen> {
   final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lasttNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController idNumberController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController phoneNoController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  List<Counties> countiesList = [];
-  final AdminServices adminServices = AdminServices();
 
-  late String county;
-  late String subCounty;
+  final AdminServices adminServices = AdminServices();
+  List<Counties> county = [];
+
+  // late String county;
+  // late String subCounty;
   // List<Counties> countiesList = [];
-  List<SubCounties> subCountiesList = [];
+  List<SubCounties> subCounty = [];
   final _addCorpFormKey = GlobalKey<FormState>();
+  String gender = 'Male';
+  List<String> genderList = [
+    'Male',
+    'Female',
+  ];
 
   @override
   void initState() {
@@ -37,12 +43,12 @@ class _AddCorpScreenState extends State<AddCorpScreen> {
   }
 
   fetchAllCounties() async {
-    countiesList = await adminServices.fetchAllCounties(context);
+    county = await adminServices.fetchAllCounties(context);
     setState(() {});
   }
 
   fetchAllSubCounties() async {
-    subCountiesList = await adminServices.fetchAllSubCounties(context);
+    subCounty = await adminServices.fetchAllSubCounties(context);
     setState(() {});
   }
 
@@ -50,219 +56,205 @@ class _AddCorpScreenState extends State<AddCorpScreen> {
   void dispose() {
     super.dispose();
     firstNameController.dispose();
-    lasttNameController.dispose();
+    lastNameController.dispose();
     idNumberController.dispose();
-    genderController.dispose();
     phoneNoController.dispose();
+    genderController.dispose();
     emailController.dispose();
   }
 
   void addCorp() {
     if (_addCorpFormKey.currentState!.validate()) {
       adminServices.addCorp(
-          context: context,
-          firstName: firstNameController.text,
-          lastName: lasttNameController.text,
-          idNumber: double.parse(idNumberController.text),
-          phoneNo: double.parse(phoneNoController.text),
-          email: emailController.text,
-          gender: genderController.text,
-          county: county,
-          subCounty: subCounty);
+        context: context,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        idNumber: double.parse(idNumberController.text),
+        phoneNo: double.parse(phoneNoController.text),
+        email: emailController.text,
+        gender: gender,
+        county: county,
+        subCounty: subCounty,
+      );
     }
   }
+
+  // void selectCounty() async {
+  //   var res = await fetchAllCounties();
+  //   setState(() {
+  //     county = res;
+  //   });
+  // }
+
+  // void selectSubCounty() async {
+  //   var res = await fetchAllSubCounties();
+  //   setState(() {
+  //     subCounty = res;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: const Size.fromHeight(50),
-      //   child: AppBar(
-      //     centerTitle: false,
-      //     flexibleSpace: Container(
-      //       decoration: const BoxDecoration(
-      //         gradient: GlobalVariables.appBarGradient,
-      //       ),
-      //     ),
-      //     title: const Text(
-      //       'Add Corp',
-      //       style: TextStyle(color: Colors.white),
-      //     ),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Form(
+              key: _addCorpFormKey,
               child: Column(
-            children: [
-              TextFormField(
-                controller: firstNameController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
-                  hintText: 'First Name',
-                  labelText: 'First Name',
-                  labelStyle: TextStyle(
-                    color: Colors.green,
+                children: [
+                  TextFormField(
+                    controller: firstNameController,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person, color: Colors.green),
+                      hintText: 'First Name',
+                      labelText: 'First Name',
+                      labelStyle: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              TextFormField(
-                controller: lasttNameController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
-                  hintText: 'Last Name',
-                  labelText: 'Last Name',
-                  labelStyle: TextStyle(
-                    color: Colors.green,
+                  TextFormField(
+                    controller: lastNameController,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person, color: Colors.green),
+                      hintText: 'Last Name',
+                      labelText: 'Last Name',
+                      labelStyle: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              TextFormField(
-                controller: idNumberController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.all_inbox),
-                  hintText: 'ID Number',
-                  labelText: 'ID Number',
-                  labelStyle: TextStyle(
-                    color: Colors.green,
+                  TextFormField(
+                    controller: idNumberController,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.all_inbox, color: Colors.green),
+                      hintText: 'ID Number',
+                      labelText: 'ID Number',
+                      labelStyle: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.email_outlined),
-                  hintText: 'Email',
-                  labelText: 'Email',
-                  labelStyle: TextStyle(
-                    color: Colors.green,
+                  TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.email_outlined, color: Colors.green),
+                      hintText: 'Email',
+                      labelText: 'Email',
+                      labelStyle: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              TextFormField(
-                controller: genderController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.people_outline_sharp),
-                  hintText: 'Gender',
-                  labelText: 'Gender',
-                  labelStyle: TextStyle(
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-              TextFormField(
-                controller: phoneNoController,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.phone_outlined),
-                  hintText: 'Phone Number',
-                  labelText: 'Phone Number',
-                  labelStyle: TextStyle(
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-              // TextFormField(
-              //   decoration: const InputDecoration(
-              //     icon: Icon(Icons.place),
-              //     hintText: 'County',
-              //     labelText: 'County',
-              //     labelStyle: TextStyle(
-              //       color: Colors.green,
-              //     ),
-              //   ),
-              // ),
-              //
-              // DropdownButton(
-              //   value: _selectedValue,
-              //   items: countiesList
-              //       .map((value) => DropdownMenuItem(
-              //           value: value.id, child: Text(value.name),),)
-              //       .toList(),
-              //   onChanged: (value) {
-              //     _selectedValue = value as String;
-              //     setState(() {});
-              //   },
-              // ),
-              //
-              SizedBox(
-                width: double.infinity,
-                child: DropdownButtonFormField<String>(
-                  // value: county,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  validator: (value) =>
-                      value == null ? 'Please select County' : null,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.place),
-                    labelText: "Select County",
-                    labelStyle: TextStyle(color: Colors.green),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  items: countiesList.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem(
-                      value: value.id,
-                      child: Text("${value.name}"),
-                    );
-                  }).toList(),
-                  onChanged: (newVal) async {
-                    countiesList = newVal as List<Counties>;
-                    // setState(
-                    //   () {
-                    //     countiesList = newVal;
-                    //   },
-                    // );
-                  },
-                ),
-              ),
-
-              SizedBox(
-                width: double.infinity,
-                child: DropdownButtonFormField<String>(
-                  // value: county,
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  validator: (value) =>
-                      value == null ? 'Please select Sub County' : null,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.place_outlined),
-                    labelText: "Select Sub County",
-                    labelStyle: TextStyle(color: Colors.green),
-                    filled: true,
-                    fillColor: Colors.white,
-                  ),
-                  items: subCountiesList.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem(
-                      value: value.id,
-                      child: Text("${value.name}"),
-                    );
-                  }).toList(),
-                  onChanged: (newVal) async {
-                    setState(
-                      () {
-                        subCountiesList = newVal! as List<SubCounties>;
+                  SizedBox(
+                    width: double.infinity,
+                    child: DropdownButtonFormField(
+                      value: gender,
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      validator: (value) =>
+                          value == null ? 'Please select Gender' : null,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.people_outline_sharp,
+                            color: Colors.green),
+                        labelText: "Gender",
+                        labelStyle: TextStyle(color: Colors.green),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      items: genderList.map<DropdownMenuItem<String>>((item) {
+                        return DropdownMenuItem(
+                          value: item,
+                          child: Text(item),
+                        );
+                      }).toList(),
+                      onChanged: (String? newVal) {
+                        setState(
+                          () {
+                            gender = newVal!;
+                          },
+                        );
                       },
-                    );
-                  },
-                ),
-              ),
-              // TextFormField(
-              //   decoration: const InputDecoration(
-              //     icon: Icon(Icons.place_outlined),
-              //     hintText: 'Sub County',
-              //     labelText: 'Sub County',
-              //     labelStyle: TextStyle(
-              //       color: Colors.green,
-              //     ),
-              //   ),
-              // )
-
-              const SizedBox(height: 20),
-              CustomButton(
-                text: 'Add Corp',
-                onTap: addCorp,
-              )
-            ],
-          )),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: phoneNoController,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.phone_outlined, color: Colors.green),
+                      hintText: 'Phone Number',
+                      labelText: 'Phone Number',
+                      labelStyle: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: DropdownButtonFormField<String>(
+                      // value: county,
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      validator: (value) =>
+                          value == null ? 'Please select County' : null,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.place, color: Colors.green),
+                        labelText: "Select County",
+                        labelStyle: TextStyle(color: Colors.green),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      items: county.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem(
+                          value: value.id,
+                          child: Text("${value.name}"),
+                        );
+                      }).toList(),
+                      onChanged: (newVal) async {
+                        // county = newVal as List<Counties>;
+                        setState(
+                          () {
+                            county = newVal! as List<Counties>;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    // onTap: selectCounty(),
+                    width: double.infinity,
+                    child: DropdownButtonFormField<String>(
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      validator: (value) =>
+                          value == null ? 'Please select Sub County' : null,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.place_outlined, color: Colors.green),
+                        labelText: "Select Sub County",
+                        labelStyle: TextStyle(color: Colors.green),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      items: subCounty.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem(
+                          value: value.id,
+                          child: Text("${value.name}"),
+                        );
+                      }).toList(),
+                      onChanged: (newVal) async {
+                        setState(
+                          () {
+                            subCounty = newVal! as List<SubCounties>;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  CustomButton(
+                    text: 'Add Corp',
+                    // onTap: () {},
+                    onTap: addCorp,
+                  )
+                ],
+              )),
         ),
       ),
     );

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:lima_app/constants/error_handling.dart';
 import 'package:lima_app/constants/global_variables.dart';
 import 'package:lima_app/constants/utils.dart';
-import 'package:lima_app/features/superadmin/screens/home_screen.dart';
+import 'package:lima_app/features/superadmin/screens/dashboard.dart';
 import 'package:lima_app/providers/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';

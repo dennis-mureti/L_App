@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lima_app/common/widgets/common_button.dart';
 import 'package:lima_app/features/auth/services/login_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lima_app/features/superadmin/screens/home_screen.dart';
+import 'package:lima_app/features/superadmin/screens/dashboard.dart';
 
 enum Auth { login }
 
@@ -69,9 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       decoration: const InputDecoration(
                           labelText: 'Email',
+                          labelStyle: TextStyle(color: Colors.green),
                           filled: true,
                           fillColor: Color.fromRGBO(255, 255, 255, 1),
-                          prefixIcon: Icon(FontAwesomeIcons.envelope)),
+                          prefixIcon: Icon(FontAwesomeIcons.envelope,
+                              color: Colors.green)),
                       controller: _emailController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -82,16 +84,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 8.0),
                     TextFormField(
-                      decoration: const InputDecoration(
+                      obscureText: obsecure,
+                      decoration: InputDecoration(
                         labelText: 'Password',
+                        labelStyle: const TextStyle(color: Colors.green),
                         filled: true,
                         fillColor: Colors.white,
-                        prefixIcon: Icon(FontAwesomeIcons.lock),
-
-                        // suffixIcon: IconButton(onPressed: () => setObsecure(), icon: icon)
+                        prefixIcon: const Icon(FontAwesomeIcons.lock,
+                            color: Colors.green),
+                        suffixIcon: IconButton(
+                            onPressed: () => setObsecure(),
+                            icon: obsecure
+                                ? Icon(FontAwesomeIcons.eyeSlash)
+                                : Icon(FontAwesomeIcons.eye),
+                            color: Colors.green),
                       ),
                       controller: _passwordController,
-                      obscureText: true,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter your passwoord";
@@ -107,7 +115,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           loginUser();
                         }
                       },
-                    )
+                    ),
+                    const SizedBox(height: 16),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Go back!'),
+                      ),
+                    ),
                     // child: ElevatedButton(
                     //   child: const Text('Login'),
                     //   onPressed: () {

@@ -4,6 +4,7 @@ import 'package:lima_app/common/services/logout.dart';
 import 'package:lima_app/constants/global_variables.dart';
 import 'package:lima_app/features/superadmin/screens/add_corp.dart';
 import 'package:lima_app/features/corp/screens/corp_screen.dart';
+import 'package:lima_app/features/superadmin/screens/add_farmer.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -43,9 +44,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50),
-          child: AppBar(
+        appBar: AppBar(
             centerTitle: false,
             automaticallyImplyLeading: false,
             flexibleSpace: Container(
@@ -66,24 +65,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
             ],
-            // bottom: TabBar(
-            //   labelColor: Colors.white,
-            //   indicatorColor: Colors.black12,
-            //   // isScrollable: true,
-            //   tabs: const [
-            //     Tab(
-            //         child: Text(
-            //       'Helloo',
-            //       style: TextStyle(
-            //         fontSize: 15,
-            //       ),
-            //     )),
-            //   ],
-            //   controller: _tabController,
-            //   indicatorSize: TabBarIndicatorSize.tab,
-            // ),
+            bottom: TabBar(
+              labelColor: Colors.white,
+              indicatorColor: Colors.black12,
+              // overlayColor: ,
+              // isScrollable: true,
+              tabs: const [
+                Tab(
+                    child: Text(
+                  'Hello',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                )),
+              ],
+              controller: _tabController,
+              indicatorSize: TabBarIndicatorSize.tab,
+            ),
           ),
-        ),
+        // ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           // child: customContainer(
@@ -153,6 +153,70 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
+                ],
+              ),
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddFarmerScreen()));
+                      },
+                      child: Column(
+                        children: const [
+                          CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Image(
+                              image: AssetImage("assets/images/farmer.png"),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text("Add Farmer",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: 2)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  // add admin
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8),
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       // Navigator.push(
+                  //       //     context,
+                  //       //     MaterialPageRoute(
+                  //       //         builder: (context) => const AddCorpScreen()));
+                  //     },
+                  //     child: Column(
+                  //       children: const [
+                  //         CircleAvatar(
+                  //           backgroundColor: Colors.white,
+                  //           child: Image(
+                  //             image: AssetImage("assets/images/admin.png"),
+                  //           ),
+                  //         ),
+                  //         Padding(
+                  //           padding: EdgeInsets.all(8.0),
+                  //           child: Text("Add Admin",
+                  //               style: TextStyle(
+                  //                   color: Colors.black,
+                  //                   fontWeight: FontWeight.w400,
+                  //                   letterSpacing: 2)),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ],

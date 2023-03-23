@@ -14,16 +14,17 @@ import 'package:http/http.dart' as http;
 
 class AdminServices {
   // add corp
-  void addCorp(
-      {required BuildContext context,
-      required String firstName,
-      required String lastName,
-      required double idNumber,
-      required double phoneNo,
-      required String email,
-      required String gender,
-      required String county,
-      required String subCounty}) async {
+  void addCorp({
+    required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required double idNumber,
+    required double phoneNo,
+    required String email,
+    required String gender,
+    required List<Counties> county,
+    required List<SubCounties> subCounty,
+  }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       Corp corp = Corp(
@@ -31,8 +32,8 @@ class AdminServices {
         lastName: lastName,
         idNumber: idNumber,
         phoneNo: phoneNo,
-        countyId: county,
-        subCountyId: subCounty,
+        // countyId: county,
+        // subCountyId: subCounty,
       );
 
       http.Response res = await http.post(Uri.parse('$uri//corps/add'),
@@ -56,7 +57,7 @@ class AdminServices {
   // get all counties
   Future<List<Counties>> fetchAllCounties(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    List<Counties> countiesList = [];
+    List<Counties> county = [];
     try {
       http.Response res =
           await http.get(Uri.parse('$uri/counties/all'), headers: {
@@ -68,7 +69,7 @@ class AdminServices {
         context: context,
         onSuccess: () {
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
-            countiesList.add(Counties.fromJson(
+            county.add(Counties.fromJson(
               jsonEncode(
                 jsonDecode(res.body)[i],
               ),
@@ -79,13 +80,13 @@ class AdminServices {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    return countiesList;
+    return county;
   }
 
   // get all subcounties
   Future<List<SubCounties>> fetchAllSubCounties(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    List<SubCounties> subCountiesList = [];
+    List<SubCounties> subCounty = [];
     try {
       http.Response res =
           await http.get(Uri.parse('$uri/counties/all/subcounties'), headers: {
@@ -97,7 +98,7 @@ class AdminServices {
         context: context,
         onSuccess: () {
           for (int i = 0; i < jsonDecode(res.body).length; i++) {
-            subCountiesList.add(SubCounties.fromJson(
+            subCounty.add(SubCounties.fromJson(
               jsonEncode(
                 jsonDecode(res.body)[i],
               ),
@@ -108,7 +109,7 @@ class AdminServices {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
-    return subCountiesList;
+    return subCounty;
   }
 
   // get Corps
@@ -117,9 +118,9 @@ class AdminServices {
     List<GetCorp> corpList = [];
     try {
       http.Response res =
-          await http.get(Uri.parse('$uri/users/persons/all'), headers: {
+          await http.get(Uri.parse('$uri/corps/all'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
-        'access_token': userProvider.user.token,
+        'x-auth-token': userProvider.user.token,
       });
       httpErrorHandle(
         response: res,

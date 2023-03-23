@@ -6,18 +6,13 @@ class Counties {
   double? code;
   String? status;
 
-  Counties(
-      {required this.id,
-      required this.name,
-      required this.code,
-      required this.status,
-      p});
+  Counties({this.id, this.name, this.code, this.status, p});
 
-  Counties.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    name = map['name'];
-    code = map['code'];
-    status = map['status'];
+  Counties.fromMap(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    code = json['code'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toMap() {
@@ -44,4 +39,3 @@ class Counties {
   factory Counties.fromJson(String source) =>
       Counties.fromMap(json.decode(source));
 }
-

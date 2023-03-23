@@ -5,6 +5,7 @@ import 'package:lima_app/models/getcorp.dart';
 
 class ViewCorpScreen extends StatefulWidget {
   static const String routeName = '/viewcorp';
+  // final GetCorp getcorp;
   const ViewCorpScreen({
     Key? key,
   }) : super(key: key);
@@ -14,43 +15,45 @@ class ViewCorpScreen extends StatefulWidget {
 }
 
 class _ViewCorpScreenState extends State<ViewCorpScreen> {
-  List<GetCorp>? corpList;
-  int currentStep = 0;
+  List<GetCorp> corps = [];
+  // int currentStep = 0;
   final AdminServices adminServices = AdminServices();
 
   @override
   void initState() {
     super.initState();
-    // fetchAllCorp();
+    fetchAllCorp();
   }
 
   fetchAllCorp() async {
-    corpList = await adminServices.fetchAllCorp(context);
+    corps = await adminServices.fetchAllCorp(context);
     setState(() {
-      setState(() {
-        currentStep += 1;
-      });
+      // currentStep += 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return corpList == null
-        ? const Loader()
-        : GridView.builder(
-            itemCount: corpList!.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
+    return 
+    // corpList == null
+    //     ? const Loader()
+    //     :
+         ListView.builder(
+            itemCount: corps.length,
+            // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 2),
             itemBuilder: (context, index) {
-              final corpData = corpList![index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    ViewCorpScreen.routeName,
-                    arguments: corpData,
-                  );
-                },
+              final corpData = corps[index].isVet;
+              return const ListTile(
+                title: Text('data'),
+                // onTap: () {
+                //   Navigator.pushNamed(
+                //     context,
+                //     ViewCorpScreen.routeName,
+                //     // arguments: corpData,
+                //   );
+                // },
+                //
                 // child: SizedBox(
                 //   height: 140,
                 //   child: SingleProduct(

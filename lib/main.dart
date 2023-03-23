@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lima_app/features/auth/screens/login_screen.dart';
-import 'package:lima_app/features/superadmin/screens/home_screen.dart';
+import 'package:lima_app/features/superadmin/screens/dashboard.dart';
 import 'package:lima_app/features/welcome/screens/welcome_screen.dart';
 import 'package:lima_app/providers/user_provider.dart';
 import 'package:lima_app/router.dart';

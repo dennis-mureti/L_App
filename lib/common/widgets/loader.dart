@@ -9,8 +9,7 @@ class Loader extends StatelessWidget {
       child: CircularProgressIndicator(
         color: Colors.green,
         backgroundColor: Colors.amber,
-      ), 
-      
+      ),
     );
   }
 }
